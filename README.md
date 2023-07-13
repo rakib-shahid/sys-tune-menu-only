@@ -1,4 +1,8 @@
 # sys-tune
+
+Forked from the original sys-tune, only plays in the home menu
+
+A stop gap solution until the updated configs are merged into sys-tune
 ## Background audio player for the Nintendo switch + Tesla overlay
 
 ## Installation

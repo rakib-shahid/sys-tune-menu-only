@@ -446,7 +446,24 @@ namespace tune::impl {
             u64 pid{}, new_tid{};
             if (pm::PollCurrentPidTid(pid, new_tid)) {
                 // check if title is blacklisted
-                g_close_audren = config::get_title_blacklist(new_tid);
+                u64 processId = 0;
+                u64 lastProcessId = 0;
+                u64 programId = 0;
+                u64 compare = 0x0100000000001000;
+                if (R_SUCCEEDED(pmdmntGetApplicationProcessId(&processId))){
+                    if (lastProcessId != processId){
+                        if (R_SUCCEEDED(pminfoGetProgramId(&programId, processId))){
+                            if (programId >= compare){
+                                g_close_audren = 1;
+                            }
+                        }
+                        lastProcessId = processId;
+                    }          
+                }
+                else {
+                    g_close_audren = 0;
+                }
+                // g_close_audren = config::get_title_blacklist(new_tid);
 
                 g_title_volume = 1.f;
 
